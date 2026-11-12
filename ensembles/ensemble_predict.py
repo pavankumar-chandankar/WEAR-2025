@@ -242,12 +242,22 @@ if __name__ == "__main__":
                         help="Directory where patchtst_<sensor>.pth files are stored")
     parser.add_argument("--output_csv",  default="submissions/submission_final.csv",
                         help="Filename for the final submission CSV")
+    # Architecture must match the checkpoints. Defaults fit checkpoints_patchtst/.
+    # For checkpoints_patchtst_aug/ use --d_model 128 --num_layers 6.
+    parser.add_argument("--patch_size", type=int, default=10)
+    parser.add_argument("--d_model",    type=int, default=64)
+    parser.add_argument("--n_heads",    type=int, default=4)
+    parser.add_argument("--num_layers", type=int, default=3)
     args = parser.parse_args()
 
-    os.makedirs(os.path.dirname(args.output_csv), exist_ok=True)
+    os.makedirs(os.path.dirname(args.output_csv) or ".", exist_ok=True)
     ensemble_predict(
         args.test_csv,
         args.classical_models_dir,
         args.patchtst_models_dir,
-        args.output_csv
+        args.output_csv,
+        patch_size=args.patch_size,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        num_layers=args.num_layers
     )

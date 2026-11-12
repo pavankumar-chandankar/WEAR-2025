@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+raw_data_by_subject_acc/
+raw_segments_by_sensor/
+submissions/
+*.npy
+processed_data*.csv
